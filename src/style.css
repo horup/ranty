@@ -1,0 +1,25 @@
+@font-face {
+    font-family: standard;
+    src: url(../fonts/Action_Man.ttf);
+  }
+
+body
+{
+    font-family: 'standard';
+}
+
+.frame
+{
+    border: 3px solid black;
+    width: 320px;
+    height: 320px;
+    float: left;
+    margin: 16px;
+}
+
+.caption
+{
+    background-color: antiquewhite;
+    padding: 8px;
+    display: inline-block;
+}
