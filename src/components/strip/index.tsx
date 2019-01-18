@@ -38,23 +38,24 @@ function drawDialogs(action:Action, ctx:CanvasRenderingContext2D, region:{x:numb
     if (action.dialogs.length == 0)
         return;
 
-    let margin = 8;
-    let y = region.y;
-    let x = region.x + margin;
-    let w = region.w - margin * 2;
-    let h = region.h / action.dialogs.length;
-
-    y += h/2;
+    const margin = 8;
+    const x = region.x + margin;
+    const w = region.w - margin * 2;
+    const y = region.y + margin + margin * 2;
 
     ctx.fillStyle = "black";
     ctx.font = "18px standard";
     ctx.textBaseline = "middle";
+
 
     for (let dialog of action.dialogs)
     {
         let yy = y;
         let xx = x;
         let lines = dialog.text.split('\n');
+
+        if (lines.length == 0)
+            continue;
 
         if (dialog.actor % 2 == 0)
         {
@@ -66,11 +67,25 @@ function drawDialogs(action:Action, ctx:CanvasRenderingContext2D, region:{x:numb
             xx = x + w;
         }
 
+        let textWidth = 0;
         for (let line of lines)
         {
+            textWidth = ctx.measureText(line).width;
             ctx.fillText(line, xx, yy, w);
             yy+=16;
         }
+
+        let ww = textWidth / 3;
+        ww = ctx.textAlign == 'left' ? ww : -ww;
+        let ex = ctx.textAlign == 'left' ? region.x + region.w / 4 : region.x + region.w / 4 * 3;
+        let ey = region.y + region.h - margin * 3;
+        let hh = ey - yy;
+        console.log(yy + "," + region.h);
+        if (hh > 0)
+        {
+            ctx.fillRect(xx + ww, yy, 2, hh);
+        }
+
     }
 }
 
@@ -142,6 +157,7 @@ export class Strip extends React.Component<{comic:Comic}>
                     imagesToLoad--;
                     if (imagesToLoad == 0)
                     {
+                        // load font
                         f();
                     }
                 }
@@ -155,5 +171,5 @@ export class Strip extends React.Component<{comic:Comic}>
     componentDidMount = () => this.preload(()=>this.draw());
     componentDidUpdate = ()=> this.preload(()=>this.draw());
 
-    render = ()=><canvas ref={(ref)=>this.canvas=ref}></canvas>
+    render = ()=><canvas className="strip" ref={(ref)=>this.canvas=ref}></canvas>
 }
