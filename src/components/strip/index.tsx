@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {Comic, Action, Actor} from '../../model';
 import { number } from 'prop-types';
+import { Typography } from '@material-ui/core';
+import store from '../../store';
 
 function drawCaption(action:Action, ctx:CanvasRenderingContext2D, r:{x:number, y:number, w:number, h:number})
 {
@@ -73,14 +75,13 @@ function drawDialogs(action:Action, ctx:CanvasRenderingContext2D, region:{x:numb
             textWidth = ctx.measureText(line).width;
             ctx.fillText(line, xx, yy, w);
             yy+=16;
-        }
+        } 
 
         let ww = textWidth / 3;
         ww = ctx.textAlign == 'left' ? ww : -ww;
         let ex = ctx.textAlign == 'left' ? region.x + region.w / 4 : region.x + region.w / 4 * 3;
         let ey = region.y + region.h - margin * 3;
         let hh = ey - yy;
-        console.log(yy + "," + region.h);
         if (hh > 0)
         {
             ctx.fillRect(xx + ww, yy, 2, hh);
@@ -111,13 +112,13 @@ function drawFrame(action:Action, ctx:CanvasRenderingContext2D, region:{x:number
     ctx.strokeRect(region.x, region.y, region.w, region.h);
 }
 
-export class Strip extends React.Component<{comic:Comic}>
+export class Strip extends React.Component<{},{}>
 {
     canvas:HTMLCanvasElement;
 
     draw()
     {
-        let comic = this.props.comic;
+        let comic = store.comic;
         let headerSize = 32;
         let width = comic.dimensions.frame * comic.actions.length + comic.dimensions.gutter * (comic.actions.length + 1);
         let height = comic.dimensions.frame + comic.dimensions.gutter * 2 + 32;
@@ -145,7 +146,8 @@ export class Strip extends React.Component<{comic:Comic}>
     preload(f:()=>any)
     {
         let imagesToLoad = 0;
-        this.props.comic.actions.forEach(a=>
+
+        store.comic.actions.forEach(a=>
         {
             for (let id in a.actors)
             {
@@ -157,7 +159,6 @@ export class Strip extends React.Component<{comic:Comic}>
                     imagesToLoad--;
                     if (imagesToLoad == 0)
                     {
-                        // load font
                         f();
                     }
                 }
@@ -170,6 +171,5 @@ export class Strip extends React.Component<{comic:Comic}>
 
     componentDidMount = () => this.preload(()=>this.draw());
     componentDidUpdate = ()=> this.preload(()=>this.draw());
-
-    render = ()=><canvas className="strip" ref={(ref)=>this.canvas=ref}></canvas>
+    render = ()=><canvas className="strip" ref={(ref)=>this.canvas=ref}>}</canvas>
 }

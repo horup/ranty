@@ -3,19 +3,22 @@ import * as ReactDom from 'react-dom';
 import { Strip, Editor } from './components';
 import { Comic } from './model';
 
-class Index extends React.Component<any, {comic:Comic}>
+import store from './store';
+
+class Index extends React.Component<{}, {}>
 {
-    state = {comic:Comic.Default()}
+    componentDidMount()
+    {
+        store.save = ()=> this.setState({});
+    }
 
     render()
     {
-        let comic = this.state.comic;
+        let comet = Comic.Default();
         return (
             <div style={{textAlign:'center'}}>
-                <Strip comic={comic}/>
-                <Editor>
-
-                </Editor>
+                <Strip/>
+                <Editor/>
             </div>
         )
     }
@@ -23,4 +26,6 @@ class Index extends React.Component<any, {comic:Comic}>
 
 ReactDom.render(<Index/>, document.getElementById("main"));
 
-document.getElementById("preloader").remove();
+let e = document.getElementById("preloader");
+if (e!= null)
+    e.remove();

@@ -3,7 +3,7 @@ import { Actor } from './actor';
 
 export class Action
 {
-    caption?:string = undefined;
+    caption:string = "";
     dialogs:Dialog[] = [];
     actors:{[id:number]:Actor} = {};
 }
