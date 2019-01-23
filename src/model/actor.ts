@@ -1,7 +1,17 @@
 
 export let actors =
 {
+    "none":
+    {
+        "none":"none"
+    },
     "test":
+    {
+        "angry":require("../../imgs/actors/test/angry.png"),
+        "happy":require("../../imgs/actors/test/happy.png"),
+        "talking":require("../../imgs/actors/test/talking.png")
+    },
+    "devguy":
     {
         "angry":require("../../imgs/actors/test/angry.png"),
         "happy":require("../../imgs/actors/test/happy.png"),
@@ -11,10 +21,18 @@ export let actors =
 
 export class Actor
 {
-    img:any;
-
-    constructor(img:any)
+    actor:string;
+    pose:string;
+    
+    constructor(actor:string, pose:string)
     {
-        this.img = img;
+        this.actor = actor;
+        this.pose = pose;
+    }
+
+    getImage()
+    {
+        console.log(actors[this.actor][this.pose]);
+        return actors[this.actor][this.pose];
     }
 }

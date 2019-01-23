@@ -16,7 +16,7 @@ function drawCaption(action:Action, ctx:CanvasRenderingContext2D, r:{x:number, y
 function drawActor(actor:Actor, ctx:CanvasRenderingContext2D, r:{x:number, y:number, w:number, h:number})
 {
     var img = new Image();
-    img.src = actor.img;
+    img.src = actor.getImage();
     ctx.drawImage(img, r.x, r.y);
 }
 
@@ -135,7 +135,6 @@ export class Strip extends React.Component<{},{}>
         ctx.textBaseline = "top";
         ctx.fillText(comic.title, comic.dimensions.gutter, comic.dimensions.gutter);
 
-
         for (let action of comic.actions)
         {
             drawFrame(action, ctx, {x:x, y:y, w:comic.dimensions.frame, h:comic.dimensions.frame});
@@ -154,7 +153,7 @@ export class Strip extends React.Component<{},{}>
                 imagesToLoad++;
 
                 let img = new Image();
-                img.onload = ()=>
+                img.onload = img.onerror = ()=>
                 {
                     imagesToLoad--;
                     if (imagesToLoad == 0)
@@ -163,7 +162,7 @@ export class Strip extends React.Component<{},{}>
                     }
                 }
                 
-                img.src = a.actors[id].img;
+                img.src = a.actors[id].getImage();
 
             }
         });
