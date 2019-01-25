@@ -24048,11 +24048,11 @@ function () {
 
 exports.Dialog = Dialog;
 },{}],"../imgs/actors/test/angry.png":[function(require,module,exports) {
-module.exports = "/angry.5e535afb.png";
+module.exports = "angry.5e535afb.png";
 },{}],"../imgs/actors/test/happy.png":[function(require,module,exports) {
-module.exports = "/happy.e506a732.png";
+module.exports = "happy.e506a732.png";
 },{}],"../imgs/actors/test/talking.png":[function(require,module,exports) {
-module.exports = "/talking.4af6b3f1.png";
+module.exports = "talking.4af6b3f1.png";
 },{}],"model/actor.ts":[function(require,module,exports) {
 "use strict";
 
@@ -68561,7 +68561,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51320" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62400" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -68704,4 +68704,4 @@ function hmrAccept(bundle, id) {
   });
 }
 },{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.tsx"], null)
-//# sourceMappingURL=/src.f69400ca.map
+//# sourceMappingURL=src.f69400ca.map
