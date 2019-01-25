@@ -3,6 +3,7 @@ import {Button, Typography, TextField, Paper} from '@material-ui/core';
 import {Action} from '../../../model';
 import store from '../../../store';
 import { ActorEdits } from './actors';
+import { DialogEdit } from './dialogedit';
 
 export class FrameEdit extends React.Component<{action:Action}, any>
 {
@@ -14,6 +15,7 @@ export class FrameEdit extends React.Component<{action:Action}, any>
                 <form noValidate autoComplete="off">
                     <TextField fullWidth label="Caption" value={a.caption} onChange={(v)=>store.commit(()=>a.caption = v.target.value)}/>
                     <ActorEdits action={this.props.action}/>
+                    <DialogEdit action={this.props.action}/>
                 </form>
             </Paper>
         )

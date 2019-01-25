@@ -24048,11 +24048,11 @@ function () {
 
 exports.Dialog = Dialog;
 },{}],"../imgs/actors/test/angry.png":[function(require,module,exports) {
-module.exports = "angry.5e535afb.png";
+module.exports = "/angry.5e535afb.png";
 },{}],"../imgs/actors/test/happy.png":[function(require,module,exports) {
-module.exports = "happy.e506a732.png";
+module.exports = "/happy.e506a732.png";
 },{}],"../imgs/actors/test/talking.png":[function(require,module,exports) {
-module.exports = "talking.4af6b3f1.png";
+module.exports = "/talking.4af6b3f1.png";
 },{}],"model/actor.ts":[function(require,module,exports) {
 "use strict";
 
@@ -24156,7 +24156,9 @@ __export(require("./action"));
 __export(require("./comic"));
 
 __export(require("./actor"));
-},{"./action":"model/action.ts","./comic":"model/comic.ts","./actor":"model/actor.ts"}],"store/index.ts":[function(require,module,exports) {
+
+__export(require("./dialog"));
+},{"./action":"model/action.ts","./comic":"model/comic.ts","./actor":"model/actor.ts","./dialog":"model/dialog.ts"}],"store/index.ts":[function(require,module,exports) {
 "use strict";
 
 exports.__esModule = true;
@@ -68256,6 +68258,112 @@ exports.ActorEdits = function (_a) {
     index: 1
   })));
 };
+},{"react":"../node_modules/react/index.js","@material-ui/core":"../node_modules/@material-ui/core/index.es.js","../../../model":"model/index.ts","../../../store":"store/index.ts"}],"components/editor/frameedit/dialogedit.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+exports.__esModule = true;
+
+var React = __importStar(require("react"));
+
+var core_1 = require("@material-ui/core");
+
+var model_1 = require("../../../model");
+
+var store_1 = __importDefault(require("../../../store"));
+
+var Say = function Say(_a) {
+  var dialog = _a.dialog,
+      action = _a.action;
+
+  var del = function del() {
+    store_1["default"].commit(function () {
+      return action.dialogs.splice(action.dialogs.indexOf(dialog), 1);
+    });
+  };
+
+  var updateText = function updateText(v) {
+    store_1["default"].commit(function () {
+      return dialog.text = v;
+    });
+  };
+
+  var updateActor = function updateActor(v) {
+    store_1["default"].commit(function () {
+      return dialog.actor = v;
+    });
+  };
+
+  return React.createElement("div", {
+    style: {
+      display: 'flex'
+    }
+  }, React.createElement(core_1.Select, {
+    value: dialog.actor,
+    onChange: function onChange(e) {
+      return updateActor(e.target.value);
+    }
+  }, React.createElement(core_1.MenuItem, {
+    value: 0
+  }, "0"), React.createElement(core_1.MenuItem, {
+    value: 1
+  }, "1")), React.createElement(core_1.TextField, {
+    onChange: function onChange(e) {
+      return updateText(e.target.value);
+    },
+    multiline: true,
+    fullWidth: true,
+    value: dialog.text
+  }), React.createElement(core_1.Button, {
+    onClick: function onClick() {
+      return del();
+    }
+  }, "-"));
+};
+
+exports.DialogEdit = function (_a) {
+  var action = _a.action;
+
+  var add = function add() {
+    store_1["default"].commit(function () {
+      return action.dialogs.push(new model_1.Dialog(action.dialogs.length % 2, ""));
+    });
+  };
+
+  return React.createElement(core_1.Card, {
+    style: {
+      margin: '8px'
+    }
+  }, React.createElement(core_1.CardContent, null, React.createElement(core_1.Typography, {
+    color: "textSecondary",
+    gutterBottom: true
+  }, "Dialog"), action.dialogs.map(function (d, i) {
+    return React.createElement(Say, {
+      dialog: d,
+      action: action,
+      key: i
+    });
+  }), React.createElement(core_1.Button, {
+    onClick: function onClick() {
+      return add();
+    }
+  }, "+")));
+};
 },{"react":"../node_modules/react/index.js","@material-ui/core":"../node_modules/@material-ui/core/index.es.js","../../../model":"model/index.ts","../../../store":"store/index.ts"}],"components/editor/frameedit/index.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -68311,6 +68419,8 @@ var store_1 = __importDefault(require("../../../store"));
 
 var actors_1 = require("./actors");
 
+var dialogedit_1 = require("./dialogedit");
+
 var FrameEdit =
 /** @class */
 function (_super) {
@@ -68342,6 +68452,8 @@ function (_super) {
       }
     }), React.createElement(actors_1.ActorEdits, {
       action: this.props.action
+    }), React.createElement(dialogedit_1.DialogEdit, {
+      action: this.props.action
     })));
   };
 
@@ -68349,7 +68461,7 @@ function (_super) {
 }(React.Component);
 
 exports.FrameEdit = FrameEdit;
-},{"react":"../node_modules/react/index.js","@material-ui/core":"../node_modules/@material-ui/core/index.es.js","../../../store":"store/index.ts","./actors":"components/editor/frameedit/actors.tsx"}],"components/editor/index.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core":"../node_modules/@material-ui/core/index.es.js","../../../store":"store/index.ts","./actors":"components/editor/frameedit/actors.tsx","./dialogedit":"components/editor/frameedit/dialogedit.tsx"}],"components/editor/index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -68561,7 +68673,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62400" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49321" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -68704,4 +68816,4 @@ function hmrAccept(bundle, id) {
   });
 }
 },{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.tsx"], null)
-//# sourceMappingURL=src.f69400ca.map
+//# sourceMappingURL=/src.f69400ca.map
